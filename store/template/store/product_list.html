@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазин</title>
+    <link rel="stylesheet" href="{% static 'style/main.css' %}">
+</head>
+<body>
+    <div style="display: flex; justify-content: center;">
+        {% if user.is_authenticated %}
+            <form action="{% url 'store:catalog' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Добавить товары в каталог</button>
+            </form>
+        {% else %}
+            <h1>Добро пожаловать! Для добавления товаров необходимо авторизоваться.</h1>
+        {% endif %}
+        <ul>
+            <li>
+            <a href="/login/">Войти</a>
+            <a href="/logout/">Выйти</a>
+            <a href="/register/">Зарегистрироваться</a>
+            </li>
+        </ul>
+    </div>
+    <h1>Список товаров</h1>
+    <ul>
+        {% for product in products %}
+        <li>
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <p class="price">Цена: {{ product.price }}</p>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150">
+            <form action="{% url 'store:add_to_cart' product.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Добавить в корзину</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

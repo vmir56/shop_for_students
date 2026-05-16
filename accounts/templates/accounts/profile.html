@@ -1,0 +1,92 @@
+
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>👨‍💼 Профиль пользователя</h2>
+    
+    <div class="profile-card">
+        <div class="profile-info">
+            <div class="info-row">
+                <strong>Имя пользователя:</strong> {{ user.username }}
+            </div>
+            <div class="info-row">
+                <strong>Email:</strong> {{ user.email|default:"Не указан" }}
+            </div>
+            <div class="info-row">
+                <strong>Роль:</strong> 
+                <span class="role-badge role-{{ user.role }}">
+                    {{ user.get_role_display }}
+                </span>
+            </div>
+            <div class="info-row">
+                <strong>Телефон:</strong> {{ user.phone|default:"Не указан" }}
+            </div>
+            <div class="info-row">
+                <strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y H:i" }}
+            </div>
+            <div class="info-row">
+                <strong>Последний вход:</strong> {{ user.last_login|date:"d.m.Y H:i"|default:"Никогда" }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="profile-actions">
+        <a href="{% url 'projects:list' %}" class="btn btn-primary">📋 Мои проекты</a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-secondary">🚪 Выйти</a>
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .profile-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+    
+    .info-row {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .role-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .role-admin {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .role-manager {
+        background: #ffc107;
+        color: #333;
+    }
+    
+    .role-user {
+        background: #28a745;
+        color: white;
+    }
+    
+    .profile-actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
